@@ -39,6 +39,7 @@ foreach($supported_langs as $key => $value)
 			$GLOBALS['lang'] = new stdClass();
 			$context->loaded_lang_files = array();
 			$context->setLangType($key);
+			Context::set('l', $key);
 			
 			// Reload all lang files for currently loaded modules
 			$context->loadLang(_XE_PATH_ . 'common/lang/');
