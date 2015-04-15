@@ -24,9 +24,9 @@ foreach($supported_langs as $key => $value)
 	if(!strncasecmp($key, $browser_accept_langs, strlen($key)))
 	{
 		// Set cookie and session variables to prevent checking again
-		setcookie('lang_type', $key, time() + (86400 * 365));
-		$_COOKIE['lang_type'] = $key;
-		$_SESSION['lang_type'] = $key;
+		$cookie_params = session_get_cookie_params();
+		setcookie('lang_type', $key, time() + (86400 * 365), $cookie_params['path'], $cookie_params['domain']);
+		$_SESSION['lang_type'] = $_COOKIE['lang_type'] = $key;
 		
 		// Set the detected language in Context class
 		$context = Context::getInstance();
@@ -39,7 +39,7 @@ foreach($supported_langs as $key => $value)
 			$GLOBALS['lang'] = new stdClass();
 			$context->loaded_lang_files = array();
 			$context->setLangType($key);
-			Context::set('l', $key);
+			$context->set('l', $key);
 			
 			// Reload all lang files for currently loaded modules
 			$context->loadLang(_XE_PATH_ . 'common/lang/');
